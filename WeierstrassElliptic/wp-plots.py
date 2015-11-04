@@ -38,7 +38,7 @@ def drawRiemannSphere():
     x = 1 * np.outer(np.cos(u), np.sin(v))
     y = 1 * np.outer(np.sin(u), np.sin(v))
     z = 1 * np.outer(np.ones(np.size(u)), np.cos(v))
-    ax.plot_surface(x, y, z, rstride=4, cstride=4, color='b', alpha=0.5, linewidth=0, cmap='winter')
+    ax.plot_surface(x, y, z, rstride=4, cstride=4, color='b', alpha=0.5, linewidth=0, cmap='cool')
     addNumberColored(float("inf"), 'g')
     addNumberColored(0, 'y')
 
@@ -114,8 +114,11 @@ def takeUntil(l,x):
 lastpaths = []
 
 # Initialize drawing canvas.
-fig = plt.figure(frameon=True, figsize=(10,10))
+fig = plt.figure(frameon=True, figsize=(10, 10))
 ax = fig.add_subplot(111, projection='3d')
+ax.set_xlim3d(-1, 1)
+ax.set_ylim3d(-1, 1)
+ax.set_zlim3d(-1, 1)
 
 # Plot a single "slice" of the Weierstrass P function. I.e., on the
 # standard square torus an interval of the form
@@ -128,10 +131,10 @@ def plotSlice(t, f):
     xGrains1 = xGrains[0:xGrainsNHalf]
     xGrains2 = xGrains[xGrainsNHalf:xGrainsN]
     (xs, ys, zs) = extractComponents (list (map  (lambda x: f (t, x), xGrains1)))
-    path1, = ax.plot (xs, ys, zs=zs, c='r')
+    path1, = ax.plot (xs, ys, zs=zs, c='g')
     lastpaths.append (path1)
     (xs, ys, zs) = extractComponents (list (map  (lambda x: f (t, x), xGrains2)))
-    path2, = ax.plot (xs, ys, zs=zs, c='y')
+    path2, = ax.plot (xs, ys, zs=zs, c='k')
     lastpaths.append (path2)
 
 def plotCircle(tEnd, y, f):
@@ -139,7 +142,7 @@ def plotCircle(tEnd, y, f):
     tValues = takeUntil (ts, tEnd)
     tValuesTail = tValues[-2:]
     (xs, ys, zs) = extractComponents (list (map  (lambda t: f (y, t), tValues)))
-    path, = ax.plot (xs, ys, zs=zs, c='r')
+    path, = ax.plot (xs, ys, zs=zs, c='g')
     lastpaths.append (path)
     (xs, ys, zs) = extractComponents (list (map  (lambda t: f (y, t), tValuesTail)))
     path, = ax.plot (xs, ys, zs=zs, c='k')
@@ -211,9 +214,9 @@ line_ani = animation.FuncAnimation(fig, plotWpSlices, frames=list(ts), interval=
 # line_ani.save('wp-circle0.mp4')
 
 # Plot the behaviour of $\wp$ along the fixed point circle at $y=0.5$:
-ts = makeTs(0, 1)
-line_ani = animation.FuncAnimation(fig, plotWpCircle1, frames=list(ts), interval=100, blit=False,
-                                   init_func=init_fig)
+# ts = makeTs(0, 1)
+# line_ani = animation.FuncAnimation(fig, plotWpCircle1, frames=list(ts), interval=100, blit=False,
+#                                    init_func=init_fig)
 # Save as video, if desired.
 # line_ani.save('wp-circle1.mp4')
 
