@@ -1,0 +1,1 @@
+ffmpeg -i in.mp4 -filter:v "crop=490:500:280:240" -vcodec h264 out.mp4
